@@ -1,8 +1,8 @@
 <?php
-/********************************************************************************* 
+/*********************************************************************************
  *  This file is part of Sentrifugo.
  *  Copyright (C) 2015 Sapplica
- *   
+ *
  *  Sentrifugo is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -64,47 +64,47 @@ class Default_EmployeeController extends Zend_Controller_Action
 				$call = $this->_getParam('call');
 				if($call == 'ajaxcall')
 				$this->_helper->layout->disableLayout();
-		                
+
 		                if(sapp_Global::_checkprivileges(EMPLOYEE,$loginuserGroup,$loginuserRole,'add') == 'Yes'){
 					array_push($popConfigPermission,'employee');
 				}
 		        $this->view->popConfigPermission = $popConfigPermission;
-				
+
 				$data = array();
-			
+
 				$search_val = $this->_request->getParam('search_val',null);
 				$search_str = $this->_request->getParam('search_str',null);
 				$role_id = $this->_request->getParam('role_id',null);
-				
+
 				// get active roles
 				$roles_arr = $role_model->getRoles();
 				$this->view->roles_arr  = $roles_arr ;
 				//echo "<prE>";print_r($roles_arr);
-				
+
 				/* $dataTmp = $employeeModel->getGrid($sort, $by, $perPage, $pageNo, $searchData,$call,$dashboardcall,$loginUserId); */
-				$dataTmp = $employeeModel->getEmployees('',$loginUserId,$limit,$offset,$search_val,$search_str,$role_id); 
-				$totalemployees= $employeeModel->getEmployees('',$loginUserId,'','',$search_val,$search_str,$role_id); 
+				$dataTmp = $employeeModel->getEmployees('',$loginUserId,$limit,$offset,$search_val,$search_str,$role_id);
+				$totalemployees= $employeeModel->getEmployees('',$loginUserId,'','',$search_val,$search_str,$role_id);
 				$totalcount=count($totalemployees);
 				$empcount=count($dataTmp);
-		
+
 				array_push($data,$dataTmp);
 				$this->view->dataArray = $data;
-				
-				
-				
+
+
+
 				$this->view->empcount = $empcount;
 				$this->view->totalcount = $totalcount;
 				$this->view->limit = $limit;
 				$this->view->offset = $offset + $limit;
 				$this->view->call = $call;
 				$this->view->remainingcount = $totalcount -  $empcount;
-				
+
 		}
 		else
 		{
 			$this->addorganisationhead($loginUserId);
-			
-		}		
+
+		}
 		$this->view->messages = $this->_helper->flashMessenger->getMessages();
 	}
 	//function for view more employees
@@ -123,40 +123,40 @@ class Default_EmployeeController extends Zend_Controller_Action
 			$offset=$this->_getParam('offset');
 			$count_remaining=$this->_getParam('count_remaining');
 			$flag=$this->_getParam('flag');
-			
+
 			$search_val = $this->_request->getParam('search_val',null);
 			$search_str = $this->_request->getParam('search_str',null);
 			$role_id = $this->_request->getParam('role_id',null);
 			$empflag = $this->_request->getParam('empflag',null);
 			$clearflag = $this->_request->getParam('clearflag',null);
-			
+
 			if($call == 'ajaxcall')
 				$this->_helper->layout->disableLayout();
-		                
+
 		                if(sapp_Global::_checkprivileges(EMPLOYEE,$loginuserGroup,$loginuserRole,'add') == 'Yes'){
 					array_push($popConfigPermission,'employee');
 				}
 		    $this->view->popConfigPermission = $popConfigPermission;
-				
+
 			$employeeModel = new Default_Model_Employee();
 			if(	$empflag == 'myemployees')
 			{
-				$dataTmp = $employeeModel->getEmployees($loginUserId,$loginUserId,$limit,$offset,$search_val,$search_str,$role_id); 
-				$totalemployees= $employeeModel->getEmployees($loginUserId,$loginUserId,'','',$search_val,$search_str,$role_id); 
+				$dataTmp = $employeeModel->getEmployees($loginUserId,$loginUserId,$limit,$offset,$search_val,$search_str,$role_id);
+				$totalemployees= $employeeModel->getEmployees($loginUserId,$loginUserId,'','',$search_val,$search_str,$role_id);
 				$totalcount=count($totalemployees);
 				$empcount=count($dataTmp);
 			}
 			else{
 
-				$dataTmp = $employeeModel->getEmployees('',$loginUserId,$limit,$offset,$search_val,$search_str,$role_id); 
-             	$totalemployees= $employeeModel->getEmployees('',$loginUserId,'','',$search_val,$search_str,$role_id); 
+				$dataTmp = $employeeModel->getEmployees('',$loginUserId,$limit,$offset,$search_val,$search_str,$role_id);
+             	$totalemployees= $employeeModel->getEmployees('',$loginUserId,'','',$search_val,$search_str,$role_id);
 				$totalcount=count($totalemployees);
 				$empcount=count($dataTmp);
 			}
-			
+
 			   if($search_val != '' && isset($search_val) && $flag == 0)
 			   {
-					$this->view->remainingcount = $totalcount -  $empcount;  
+					$this->view->remainingcount = $totalcount -  $empcount;
 			   }
 			   else
 			   {
@@ -164,9 +164,9 @@ class Default_EmployeeController extends Zend_Controller_Action
 			   }
 				 if($clearflag == 1)
 				{
-					$this->view->remainingcount = $totalcount -  $empcount;  
+					$this->view->remainingcount = $totalcount -  $empcount;
 				}
-			
+
 				array_push($data,$dataTmp);
 				$this->view->call = $call;
 				$this->view->dataArray = $data;
@@ -175,7 +175,7 @@ class Default_EmployeeController extends Zend_Controller_Action
 				$this->view->limit = $limit;
 				$this->view->empflag = $empflag;
 				$this->view->inc_offset = $offset + $limit;
-			
+
 	}
 	public function addorganisationhead($loginUserId)
 	{
@@ -189,7 +189,7 @@ class Default_EmployeeController extends Zend_Controller_Action
 			$form = new Default_Form_Organisationhead();
 			$form->setAttrib('action',BASE_URL.'employee');
 			$msgarray = array();
-			$role_data = $role_model->getRolesList_orginfo();			
+			$role_data = $role_model->getRolesList_orginfo();
 			$flag = 'true';
 
 			//employee id
@@ -201,7 +201,7 @@ class Default_EmployeeController extends Zend_Controller_Action
 				// $emp_id = $emp_identity_code.str_pad($user_model->getMaxEmpId($emp_identity_code), 4, '0', STR_PAD_LEFT);
 				//sending identity code instead of employee id
 				$emp_id = $emp_identity_code;
-				
+
 			}
 			else
 			{
@@ -211,18 +211,18 @@ class Default_EmployeeController extends Zend_Controller_Action
 
 
 			$form->employeeId->setValue($emp_id);
-			
+
 			$form->emprole->addMultiOptions(array('' => 'Select Role')+$role_data);
 			if(empty($role_data))
 			{
 					$msgarray['emprole'] = 'Roles are not added yet.';
 					$flag = 'false';
 			}
-			 $prefixData = $prefixModel->getPrefixList(); 
-			
+			 $prefixData = $prefixModel->getPrefixList();
+
 			$form->prefix_id->addMultiOption('','Select Prefix');
 			if(!empty($prefixData))
-			{ 			
+			{
 				foreach ($prefixData as $prefixres)
 				{
 					$form->prefix_id->addMultiOption($prefixres['id'],$prefixres['prefix']);
@@ -232,37 +232,37 @@ class Default_EmployeeController extends Zend_Controller_Action
 			{
 				$msgarray['prefix_id'] = 'Prefixes are not configured yet.';
 			}
-			
-			$jobtitleData = $jobtitlesModel->getJobTitleList(); 	
+
+			$jobtitleData = $jobtitlesModel->getJobTitleList();
 			if(!empty($jobtitleData))
-			{ 						        
+			{
 				foreach ($jobtitleData as $jobtitleres)
 				{
 					$form->jobtitle_id->addMultiOption($jobtitleres['id'],$jobtitleres['jobtitlename']);
 				}
 			}
 			else
-			{			    
+			{
 				$msgarray['jobtitle_id'] = 'Job titles are not configured yet.';
 				$msgarray['position_id'] = 'Positions are not configured yet.';
 			}
-			
+
 			$form->position_id->addMultiOption('','Select a Position');
             if(isset($_POST['jobtitle_id']) && $_POST['jobtitle_id'] != '')
             {
                 $jobtitle_id =  $_POST['jobtitle_id'];
                 $positionlistArr = $positionsmodel->getPositionList($jobtitle_id);
-                
+
                 if(sizeof($positionlistArr) > 0)
-                {                        
+                {
                     foreach ($positionlistArr as $positionlistres)
                     {
                         $form->position_id->addMultiOption($positionlistres['id'],$positionlistres['positionname']);
                     }
                 }
-                
+
             }
-            
+
 			if($this->getRequest()->getPost())
 			{
 				if($form->isValid($this->_request->getPost()))
@@ -280,7 +280,7 @@ class Default_EmployeeController extends Zend_Controller_Action
 					else
 					{
 						$msgarray['employeeId'] = 'Identity codes are not configured yet.';
-						$flag = 'false';			
+						$flag = 'false';
 					}
 					//duplicate emp id check
 					$where_condition = "";
@@ -295,10 +295,10 @@ class Default_EmployeeController extends Zend_Controller_Action
 						$flag = 'false';
 					}
 
-					if($flag != 'false')                    
-					{ 
+					if($flag != 'false')
+					{
 						$jobtitle_id = $this->_request->getParam('jobtitle_id',null);
-						$position_id = $this->_request->getParam('position_id',null);                        
+						$position_id = $this->_request->getParam('position_id',null);
 						$date_of_joining = sapp_Global::change_date($this->_request->getParam('date_of_joining_head',null),'database');
 						$emprole = $this->_request->getParam('emprole',null);
 						$emailaddress = $this->_request->getParam('emailaddress',null);
@@ -313,52 +313,52 @@ class Default_EmployeeController extends Zend_Controller_Action
 						$user_data = array(
 							'emprole' => $emprole,
 						    'firstname' => $first_name,
-							'lastname' => $last_name,					                                     
+							'lastname' => $last_name,
 							'userfullname' => $userfullname,
 							'emailaddress' => $emailaddress,
-							'jobtitle_id'=> $jobtitle_id,						                                                                 
+							'jobtitle_id'=> $jobtitle_id,
 							'emppassword' => md5($emppassword),
-							'employeeId' => $emp_id,						                                                 
-							'selecteddate' => $date_of_joining,                                    
-							'userstatus' => 'old',       
+							'employeeId' => $emp_id,
+							'selecteddate' => $date_of_joining,
+							'userstatus' => 'old',
 							'modeofentry' => 'Direct',
 							'createdby'	=> $loginUserId,
 							'createddate' => gmdate("Y-m-d H:i:s"),
 							'modifiedby'=> $loginUserId,
-							'modifieddate'=> gmdate("Y-m-d H:i:s"),     
+							'modifieddate'=> gmdate("Y-m-d H:i:s"),
 							'isactive' => 1,
 						);
-						$emp_data = array(  						                                
-							'jobtitle_id'=>$jobtitle_id, 
-							'position_id'=>$position_id, 
-							'prefix_id'=>$prefix_id,    
+						$emp_data = array(
+							'jobtitle_id'=>$jobtitle_id,
+							'position_id'=>$position_id,
+							'prefix_id'=>$prefix_id,
 							'reporting_manager' => 0,
-							'date_of_joining'=>$date_of_joining,  
+							'date_of_joining'=>$date_of_joining,
 							'createdby'	=> $loginUserId,
-							'createddate' => gmdate("Y-m-d H:i:s"),						
-							'modifiedby'=>$loginUserId,				
+							'createddate' => gmdate("Y-m-d H:i:s"),
+							'modifiedby'=>$loginUserId,
 							'modifieddate'=>gmdate("Y-m-d H:i:s"),
 							'isactive' => 1,
 							'is_orghead' => 1,
 						);
-						
+
 						$org_data = array(
-							'modifiedby'=>$loginUserId,				
+							'modifiedby'=>$loginUserId,
 							'modifieddate'=>gmdate("Y-m-d H:i:s"),
 						);
 
-						$user_data['employeeId'] = $emp_id;		
-						
-						$db = Zend_Db_Table::getDefaultAdapter();	
+						$user_data['employeeId'] = $emp_id;
+
+						$db = Zend_Db_Table::getDefaultAdapter();
 						$db->beginTransaction();
 						try
 						{
-						
+
 							$user_id = $user_model->SaveorUpdateUserData($user_data, '');
-							
-							$emp_data['user_id'] = $user_id;					
-							$employeeModal->SaveorUpdateEmployeeData($emp_data, '');						
-							
+
+							$emp_data['user_id'] = $user_id;
+							$employeeModal->SaveorUpdateEmployeeData($emp_data, '');
+
 							$tableid = $user_id;
 							$actionflag = 1;
 							$menuID = EMPLOYEE;
@@ -378,7 +378,7 @@ class Default_EmployeeController extends Zend_Controller_Action
 							$options['toName'] = $userfullname;
 							$options['message'] = $text;
 							$result = sapp_Global::_sendEmail($options);
-							
+
 							$this->_helper->getHelper("FlashMessenger")->addMessage(array("success"=>"Organization head added successfully."));
 							$this->_redirect('employee');
 						}
@@ -389,36 +389,36 @@ class Default_EmployeeController extends Zend_Controller_Action
 					}
 					else
 					{
-						$messages = $form->getMessages(); 
+						$messages = $form->getMessages();
 						foreach ($messages as $key => $val)
 						{
 							foreach($val as $key2 => $val2)
 							{
 								$msgarray[$key] = $val2;
 								break;
-							}                   
-						}                
-					}					
+							}
+						}
+					}
 				}
 				else
 				{
-					$messages = $form->getMessages(); 
+					$messages = $form->getMessages();
 					foreach ($messages as $key => $val)
 					{
 						foreach($val as $key2 => $val2)
 						{
 							$msgarray[$key] = $val2;
 							break;
-						}                   
-					}                
+						}
+					}
 				}
 			}
-			
+
 			$this->view->form = $form;
 			$this->view->msgarray = $msgarray;
 			$this->render('addorghead',true);
 	}
-	
+
 	public function changeorgheadAction()
 	{
 		$auth = Zend_Auth::getInstance();
@@ -441,7 +441,7 @@ class Default_EmployeeController extends Zend_Controller_Action
 			$positionsmodel = new Default_Model_Positions();
 			$msgarray = array();
 			$orgheadsData = array();
-			
+
 			$form->setAttrib('action',BASE_URL.'employee/changeorghead/orgid/'.$org_user_id);
 			if($org_user_id)
 				$orgheadsData = $employeeModal->getEmployeesForOrgHead($org_user_id);
@@ -450,34 +450,34 @@ class Default_EmployeeController extends Zend_Controller_Action
 				$msgarray['currentorghead'] = 'There are no employees added to assign to the current organization head.';
 			}
 			$identity_codes = $identity_code_model->getIdentitycodesRecord();
-			$role_data = $role_model->getRolesList_orginfo();			
-			
+			$role_data = $role_model->getRolesList_orginfo();
+
 			$flag = 'true';
 			$emp_identity_code = isset($identity_codes[0])?$identity_codes[0]['employee_code']:"";
 			if($emp_identity_code!='')
 			{
 				// $emp_id = $emp_identity_code.str_pad($user_model->getMaxEmpId($emp_identity_code), 4, '0', STR_PAD_LEFT);
 				$emp_id = $emp_identity_code;
-			}	
-			else 
+			}
+			else
 			{
 				$emp_id = '';
 				$msgarray['employeeId'] = 'Identity codes are not configured yet.';
 				$flag = 'false';
-			}			
+			}
 			$form->employeeId->setValue($emp_id);
-			
+
 			$form->emprole->addMultiOptions(array('' => 'Select Role')+$role_data);
 			if(empty($role_data))
 			{
 					$msgarray['emprole'] = 'Roles are not added yet.';
 					$flag = 'false';
 			}
-			 $prefixData = $prefixModel->getPrefixList(); 
-			
+			 $prefixData = $prefixModel->getPrefixList();
+
 			$form->prefix_id->addMultiOption('','Select Prefix');
 			if(!empty($prefixData))
-			{ 			
+			{
 				foreach ($prefixData as $prefixres)
 				{
 					$form->prefix_id->addMultiOption($prefixres['id'],$prefixres['prefix']);
@@ -487,37 +487,37 @@ class Default_EmployeeController extends Zend_Controller_Action
 			{
 				$msgarray['prefix_id'] = 'Prefixes are not configured yet.';
 			}
-			
-			$jobtitleData = $jobtitlesModel->getJobTitleList(); 	
+
+			$jobtitleData = $jobtitlesModel->getJobTitleList();
 			if(!empty($jobtitleData))
-			{ 						        
+			{
 				foreach ($jobtitleData as $jobtitleres)
 				{
 					$form->jobtitle_id->addMultiOption($jobtitleres['id'],$jobtitleres['jobtitlename']);
 				}
 			}
 			else
-			{			    
+			{
 				$msgarray['jobtitle_id'] = 'Job titles are not configured yet.';
 				$msgarray['position_id'] = 'Positions are not configured yet.';
 			}
-			
+
 			$form->position_id->addMultiOption('','Select a Position');
             if(isset($_POST['jobtitle_id']) && $_POST['jobtitle_id'] != '')
             {
                 $jobtitle_id =  $_POST['jobtitle_id'];
                 $positionlistArr = $positionsmodel->getPositionList($jobtitle_id);
-                
+
                 if(sizeof($positionlistArr) > 0)
-                {                        
+                {
                     foreach ($positionlistArr as $positionlistres)
                     {
                         $form->position_id->addMultiOption($positionlistres['id'],$positionlistres['positionname']);
                     }
                 }
-                
+
             }
-            
+
 			if($this->getRequest()->getPost())
 			{
 				$orghead_repmangr = $this->_request->getParam('orghead_rep_manger',null);
@@ -541,7 +541,7 @@ class Default_EmployeeController extends Zend_Controller_Action
 				else
 				{
 					$msgarray['employeeId'] = 'Identity codes are not configured yet.';
-					$flag = 'false';			
+					$flag = 'false';
 				}
 
 				if($orghead_repmangr == '')
@@ -609,77 +609,77 @@ class Default_EmployeeController extends Zend_Controller_Action
 
 				}
 
-				if($form->isValid($this->_request->getPost()) && $flag != 'false')                    
-				{ 
+				if($form->isValid($this->_request->getPost()) && $flag != 'false')
+				{
 					$emppassword = sapp_Global::generatePassword();
 					$jobtitle_id = $this->_request->getParam('jobtitle_id',null);
-					$position_id = $this->_request->getParam('position_id',null);                        
+					$position_id = $this->_request->getParam('position_id',null);
 					$userfullname = $first_name.' '.$last_name;
 					$prefix_id = $this->_request->getParam('prefix_id',null);
 					$user_id = $this->_request->getParam('user_id',null);
-					
-					$old_org_head = array(  
+
+					$old_org_head = array(
 						'reporting_manager' => $orghead_repmangr,
-						'modifiedby'=>$loginUserId,				
+						'modifiedby'=>$loginUserId,
 						'modifieddate'=>gmdate("Y-m-d H:i:s"),
 						'is_orghead' => 0,
 					);
 					$old_org_where = array('user_id=?'=>$org_user_id);
-					
+
 					if($selectedtab == 1)
 					{
-						$new_org_head = array(  
+						$new_org_head = array(
 							'reporting_manager' => 0,
-							'modifiedby'=>$loginUserId,				
+							'modifiedby'=>$loginUserId,
 							'modifieddate'=>gmdate("Y-m-d H:i:s"),
 							'is_orghead' => 1,
 						);
 						$new_org_where = array('user_id=?'=>$currentorghead);
-					}else 
+					}else
 						{
-					
+
 						$user_data = array(
 							'emprole' => $emprole,
 						    'firstname' => $first_name,
-							'lastname' => $last_name,					                                     
+							'lastname' => $last_name,
 							'userfullname' => $userfullname,
 							'emailaddress' => $emailaddress,
-							'jobtitle_id'=> $jobtitle_id,						                                                                 
+							'jobtitle_id'=> $jobtitle_id,
 							'emppassword' => md5($emppassword),
-							'employeeId' => $emp_id,						                                                 
-							'selecteddate' => $date_of_joining,                                    
-							'userstatus' => 'old',       
+							'employeeId' => $emp_id,
+							'selecteddate' => $date_of_joining,
+							'userstatus' => 'old',
 							'modeofentry' => 'Direct',
 							'createdby'	=> $loginUserId,
 							'createddate' => gmdate("Y-m-d H:i:s"),
 							'modifiedby'=> $loginUserId,
-							'modifieddate'=> gmdate("Y-m-d H:i:s"),     
+							'modifieddate'=> gmdate("Y-m-d H:i:s"),
 							'isactive' => 1,
 						);
-						$emp_data = array(  						                                
-							'jobtitle_id'=>$jobtitle_id, 
-							'position_id'=>$position_id, 
-							'prefix_id'=>$prefix_id,    
+						$emp_data = array(
+							'jobtitle_id'=>$jobtitle_id,
+							'position_id'=>$position_id,
+							'prefix_id'=>$prefix_id,
 							'reporting_manager' => 0,
-							'date_of_joining'=>$date_of_joining,  
+							'date_of_joining'=>$date_of_joining,
 							'createdby'	=> $loginUserId,
-							'createddate' => gmdate("Y-m-d H:i:s"),						
-							'modifiedby'=>$loginUserId,				
+							'createddate' => gmdate("Y-m-d H:i:s"),
+							'modifiedby'=>$loginUserId,
 							'modifieddate'=>gmdate("Y-m-d H:i:s"),
 							'isactive' => 1,
 							'is_orghead' => 1,
 						);
-						
-					}	
-					
+
+					}
+
 					/*if($emp_identity_code!='')
 						$emp_id = $emp_identity_code.str_pad($user_model->getMaxEmpId($emp_identity_code), 4, '0', STR_PAD_LEFT);
 					else
 					$emp_id = '';*/
-					$user_data['employeeId'] = $emp_id;		
-		
-					
-					$db = Zend_Db_Table::getDefaultAdapter();	
+					$user_data['employeeId'] = $emp_id;
+
+
+					$db = Zend_Db_Table::getDefaultAdapter();
 					$db->beginTransaction();
 					try
 					{
@@ -688,13 +688,13 @@ class Default_EmployeeController extends Zend_Controller_Action
 						{
 							$employeeModal->SaveorUpdateEmployeeData($new_org_head, $new_org_where);
 						}
-						else 
+						else
 						{
 							$user_id = $user_model->SaveorUpdateUserData($user_data, '');
-							$emp_data['user_id'] = $user_id;					
+							$emp_data['user_id'] = $user_id;
 							$employeeModal->SaveorUpdateEmployeeData($emp_data, '');
-						}						
-						
+						}
+
 						$tableid = $user_id;
 						$actionflag = 1;
 						$menuID = EMPLOYEE;
@@ -715,7 +715,7 @@ class Default_EmployeeController extends Zend_Controller_Action
 							$options['toEmail'] = $emailaddress;
 							$options['toName'] = $this->view->emp_name;
 							$options['message'] = $text;
-							$result = sapp_Global::_sendEmail($options);	
+							$result = sapp_Global::_sendEmail($options);
 						}
 
 						//Sending mails to SuperAdmin,Management Employees
@@ -734,20 +734,20 @@ class Default_EmployeeController extends Zend_Controller_Action
 									$org_head_name = $emp['userfullname'];
 								}
 							}
-							
+
 						}
 						$new_org_head_name = ($org_head_name == '')? $userfullname:$org_head_name;
 						$options['subject'] = APPLICATION_NAME.': New Organizaion Head';
                         $options['header'] = 'New organization head';
-                        $options['toEmail'] = SUPERADMIN_EMAIL;  
+                        $options['toEmail'] = SUPERADMIN_EMAIL;
                         $options['toName'] = 'Super Admin';
-                        $options['bcc'] 	= $empArr; 
-                        $options['message'] =  "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
+                        $options['bcc'] 	= $empArr;
+                        $options['message'] =  "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>
 												<span style='color:#3b3b3b;'>Hi,</span><br />
 												<div style='padding:20px 0 0 0;color:#3b3b3b;'><b>$new_org_head_name</b> is our new organization head. </div>
 												<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>".APPLICATION_NAME."</b> account to check the details.</div>
 												</div> " ;
-                        $mail_id =  sapp_Global::_sendEmail($options); 
+                        $mail_id =  sapp_Global::_sendEmail($options);
 						$this->_helper->getHelper("FlashMessenger")->addMessage(array("success"=>"Organization head changed succesfully."));
 						$this->_redirect('employee');
 					}
@@ -758,25 +758,25 @@ class Default_EmployeeController extends Zend_Controller_Action
 				}
 				else
 				{
-					$messages = $form->getMessages(); 
+					$messages = $form->getMessages();
 					foreach ($messages as $key => $val)
 					{
 						foreach($val as $key2 => $val2)
 						{
 							$msgarray[$key] = $val2;
 							break;
-						}                   
+						}
 					}
 				}
 			}
-			
+
 			$this->view->form = $form;
 			$this->view->orgheadsData = $orgheadsData;
 			$this->view->msgarray = $msgarray;
 		}
 		else
 		{
-			$this->_redirect('error');	
+			$this->_redirect('error');
 		}
 	}
 
@@ -795,7 +795,7 @@ class Default_EmployeeController extends Zend_Controller_Action
 		}
 		$employeeModel = new Default_Model_Employee();
 		$currentOrgHead = $employeeModel->getCurrentOrgHead();
-	
+
 		if(empty($currentOrgHead))
 		{
 			$this->addorganisationhead($loginUserId);
@@ -817,31 +817,31 @@ class Default_EmployeeController extends Zend_Controller_Action
 			array_push($popConfigPermission,'position');
 		}
 		$this->view->popConfigPermission = $popConfigPermission;
-		
+
 		$employeeform = new Default_Form_employee();
-		
+
 		$usersModel = new Default_Model_Users();
 		$employmentstatusModel = new Default_Model_Employmentstatus();
 		$busineesUnitModel = new Default_Model_Businessunits();
 		$user_model = new Default_Model_Usermanagement();
 		$candidate_model = new Default_Model_Candidatedetails();
 		$role_model = new Default_Model_Roles();
-	
+
 		$jobtitlesModel = new Default_Model_Jobtitles();
 		$prefixModel = new Default_Model_Prefix();
 		$msgarray = array();
 		$identity_code_model = new Default_Model_Identitycodes();
 		$identity_codes = $identity_code_model->getIdentitycodesRecord();
-		
+
 
 		$emp_identity_code = isset($identity_codes[0])?$identity_codes[0]['employee_code']:"";
-		
+
 		if($emp_identity_code!='')
 		{
 			// $emp_id = $emp_identity_code.str_pad($user_model->getMaxEmpId($emp_identity_code), 4, '0', STR_PAD_LEFT);
 			//sending identity code instead of employee id
 			$emp_id = $emp_identity_code;
-			
+
 		}
 		else
 		{
@@ -890,12 +890,12 @@ class Default_EmployeeController extends Zend_Controller_Action
 		{
 			$msgarray['candidatereferredby'] = 'Employees are not added yet.';
 		}
-			
+
 		$employmentStatusData = $employmentstatusModel->getempstatusActivelist();
 		$employeeform->emp_status_id->addMultiOption('','Select Employment Status');
 		if(!empty($employmentStatusData))
 		{
-			 
+
 			foreach ($employmentStatusData as $employmentStatusres){
 				$employeeform->emp_status_id->addMultiOption($employmentStatusres['workcodename'],$employmentStatusres['statusname']);
 			}
@@ -954,7 +954,7 @@ class Default_EmployeeController extends Zend_Controller_Action
 			$msgarray['position_id'] = 'Positions are not configured yet.';
 			$emptyFlag++;
 		}
-			
+
 		$prefixData = $prefixModel->getPrefixList();
 		$employeeform->prefix_id->addMultiOption('','Select Prefix');
 		if(!empty($prefixData))
@@ -976,7 +976,7 @@ class Default_EmployeeController extends Zend_Controller_Action
 			if(!empty($reportingManagerData))
 			{
 				$report_opt = $reportingManagerData;
-				 
+
 				if(isset($_POST['reporting_manager']) && $_POST['reporting_manager']!='')
 				$employeeform->setDefault('reporting_manager',$_POST['reporting_manager']);
 			}
@@ -1049,9 +1049,9 @@ class Default_EmployeeController extends Zend_Controller_Action
 				  $ffEmpRatingsData = $appEmpRatingsModel->getFeedforwardDataByEmpID($id);
 				  if(sizeof($ffEmpRatingsData)>0 && $ffEmpRatingsData[0]['status'] == 1)
 					$ff_flag = 'false';
-					
+
 				if($performanceflag == 'true' && $ff_flag == 'true')
-				{  
+				{
 						$employeeModal = new Default_Model_Employee();
 						$usersModel = new Default_Model_Users();
 						$employmentstatusModel = new Default_Model_Employmentstatus();
@@ -1068,7 +1068,7 @@ class Default_EmployeeController extends Zend_Controller_Action
 						$empRoleId="";
 						$data = $employeeModal->getsingleEmployeeData($id);
 						if($data == 'norows')
-						{                                    
+						{
 							$this->view->rowexist = "norows";
 						}
 						else if(!empty($data))
@@ -1076,22 +1076,22 @@ class Default_EmployeeController extends Zend_Controller_Action
 							$this->view->rowexist = "rows";
 							$employeeform->submit->setLabel('Update');
 							$data = $data[0];
-							
+
 							/* Earlier code to fetch employee details */
-							$employeeData = $employeeModal->getsingleEmployeeData($id);						
+							$employeeData = $employeeModal->getsingleEmployeeData($id);
 							if(empty($data['modeofentry'])) $data['modeofentry'] = 'Direct';
 
 							if($data['is_orghead'] == 1)
 		                    {
 								$roles_arr = $role_model->getRolesList_EMP('orghead');
-								
+
 								if(sizeof($roles_arr) > 0)
 								{
-									$employeeform->emprole->addMultiOptions(array(''=>'Select Role')+$roles_arr);							
+									$employeeform->emprole->addMultiOptions(array(''=>'Select Role')+$roles_arr);
 								}
 							}
 							else
-							{	
+							{
 			  					$roles_arr = $role_model->getRolesList_EMP();
 			  					if(sizeof($roles_arr) > 0)
 			  					{
@@ -1099,7 +1099,7 @@ class Default_EmployeeController extends Zend_Controller_Action
 			  					}
 		          			}
 							$referedby_options = $user_model->getRefferedByForUsers();
-		
+
 							$employmentStatusData = $employmentstatusModel->getempstatuslist();
 							if(sizeof($employmentStatusData) > 0)
 							{
@@ -1108,7 +1108,7 @@ class Default_EmployeeController extends Zend_Controller_Action
 									$employeeform->emp_status_id->addMultiOption($employmentStatusres['workcodename'],$employmentStatusres['statusname']);
 								}
 							}
-								
+
 							$businessunitData = $busineesUnitModel->getDeparmentList();
 						   	if(sizeof($businessunitData) > 0)
 							{
@@ -1117,7 +1117,7 @@ class Default_EmployeeController extends Zend_Controller_Action
 									$employeeform->businessunit_id->addMultiOption($businessunitres['id'],$businessunitres['unitname']);
 								}
 							}
-								
+
 							$departmentsData = $deptModel->getDepartmentList($data['businessunit_id']);
 							if(sizeof($departmentsData) > 0)
 							{
@@ -1126,7 +1126,7 @@ class Default_EmployeeController extends Zend_Controller_Action
 									$employeeform->department_id->addMultiOption($departmentsres['id'],$departmentsres['deptname']);
 								}
 							}
-								
+
 							$jobtitleData = $jobtitlesModel->getJobTitleList();
 							if(sizeof($jobtitleData) > 0)
 							{
@@ -1135,7 +1135,7 @@ class Default_EmployeeController extends Zend_Controller_Action
 									$employeeform->jobtitle_id->addMultiOption($jobtitleres['id'],$jobtitleres['jobtitlename']);
 								}
 							}
-		
+
 							$positionlistArr = $positionsmodel->getPositionList($data['jobtitle_id']);
 							if(sizeof($positionlistArr) > 0)
 							{
@@ -1145,7 +1145,7 @@ class Default_EmployeeController extends Zend_Controller_Action
 									$employeeform->position_id->addMultiOption($positionlistres['id'],$positionlistres['positionname']);
 								}
 							}
-		
+
 							$prefixData = $prefixModel->getPrefixList();
 							if(!empty($prefixData))
 							{
@@ -1176,10 +1176,10 @@ class Default_EmployeeController extends Zend_Controller_Action
 							$employeeform->setDefault('prefix_id',$data['prefix_id']);
 							//$employeeform->setDefault('emprole',$data['emprole']."_".MANAGEMENT_GROUP);
 							$employeeform->setDefault('emprole',$data['emprole']);
-							
+
 							$date_of_joining = sapp_Global::change_date($data['date_of_joining'],'view');
 							$employeeform->date_of_joining->setValue($date_of_joining);
-								
+
 							if($data['date_of_leaving'] !='' && $data['date_of_leaving'] !='0000-00-00')
 							{
 								$date_of_leaving = sapp_Global::change_date($data['date_of_leaving'],'view');
@@ -1197,20 +1197,20 @@ class Default_EmployeeController extends Zend_Controller_Action
 								$employeeform->candidatereferredby->addMultiOption($referedby_options[$data['candidatereferredby']],$referedby_options[$data['candidatereferredby']]);
 								//$employeeform->candidatereferredby->setValue($referedby_options[$data['candidatereferredby']]);
 							}
-		
+
 							if($data['rccandidatename'] != '' && $data['rccandidatename']!=0)
 							{
 								$cand_data = $candidate_model->getCandidateById($data['rccandidatename']);
 								$data['requisition_code'] = $cand_data['requisition_code'];
 							}
-							
+
 							$role_data = $role_model->getRoleDataById($data['emprole']);
 							$employeeform->emprole->setValue($data['emprole']."_".$role_data['group_id']);
-								
+
 							$employeeform->setAttrib('action',BASE_URL.'employee/edit/id/'.$id);
-								
+
 							$reportingManagerData = $usersModel->getReportingManagerList_employees($data['department_id'],$data['id'],$role_data['group_id']);
-								
+
 							$empDeptId = (isset($_POST['department_id']))?$_POST['department_id']:$data['department_id'];
 							if(isset($_POST['emprole']) && $_POST['emprole'] != '' )
 							{
@@ -1221,7 +1221,7 @@ class Default_EmployeeController extends Zend_Controller_Action
 							{
 								$empRoleId = $data['emprole'];
 							}
-							
+
 							if(isset($empDeptId) && $empDeptId!='' && isset($empRoleId) && $empRoleId != '')
 							{
 								try{
@@ -1231,19 +1231,19 @@ class Default_EmployeeController extends Zend_Controller_Action
 									$reportingManagerData = array();
 								}
 							}
-								
+
 							if(!empty($reportingManagerData))
 							{
 								$report_opt = $reportingManagerData;
 							}
 							$employeeform->setDefault('reporting_manager',$data['reporting_manager']);
-								
+
 							$this->view->id = $id;
 							$this->view->form = $employeeform;
 							$this->view->employeedata = (!empty($employeeData))?$employeeData[0]:"";
 							$this->view->messages = $this->_helper->flashMessenger->getMessages();
 							$this->view->data = $data;
-		                                        
+
                             if($data['is_orghead'] == 1)
                             {
                                 $employeeform->removeElement('businessunit_id');
@@ -1264,7 +1264,7 @@ class Default_EmployeeController extends Zend_Controller_Action
 			}
 			else
 			{
-                            
+
 				$this->view->rowexist = "norows";
 			}
 
@@ -1285,13 +1285,13 @@ class Default_EmployeeController extends Zend_Controller_Action
 
 		}
 		catch(Exception $e)
-		{   
+		{
 			$this->view->rowexist = "norows";
 		}
 	}
-	
-public function editappraisal($id,$performanceflag,$ff_flag)
-	{	
+
+	public function editappraisal($id,$performanceflag,$ff_flag)
+	{
 		$auth = Zend_Auth::getInstance();
      	if($auth->hasIdentity()){
 					$loginUserId = $auth->getStorage()->read()->id;
@@ -1300,7 +1300,7 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 		try
 		{
 			if($id!='' && $id > 0)
-			{	
+			{
 				$employeeModal = new Default_Model_Employee();
 				$usersModel = new Default_Model_Users();
 				$employmentstatusModel = new Default_Model_Employmentstatus();
@@ -1308,7 +1308,7 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 				$deptModel = new Default_Model_Departments();
 				$role_model = new Default_Model_Roles();
 				$user_model = new Default_Model_Usermanagement();
-				$candidate_model = new Default_Model_Candidatedetails(); 
+				$candidate_model = new Default_Model_Candidatedetails();
 				$jobtitlesModel = new Default_Model_Jobtitles();
 				$positionsmodel = new Default_Model_Positions();
                                 $prefix_model = new Default_Model_Prefix();
@@ -1320,7 +1320,7 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 				}
 				else if(!empty($data))
 				{
-                                    
+
 					$this->view->rowexist = "rows";
 					$this->view->empdata = $data;
 					$elements = $employeeform->getElements();
@@ -1334,15 +1334,15 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 						}
 					}
 					$employeeform->removeElement("submit");
-					$data = $data[0]; 
-					
-					$roles_arr = $role_model->getRolesDataByID($data['emprole']); 
+					$data = $data[0];
+
+					$roles_arr = $role_model->getRolesDataByID($data['emprole']);
 					if(sizeof($roles_arr) > 0)
-					{ 			                    
+					{
 						$employeeform->emprole->addMultiOption($roles_arr[0]['id'].'_'.$roles_arr[0]['group_id'],utf8_encode($roles_arr[0]['rolename']));
-						
+
 					}
-									$prefix_data = array();	
+									$prefix_data = array();
 										if($data['prefix_id']!='' && $data['prefix_id']!='null')
                                         	$prefix_data = $prefix_model->getsinglePrefixData($data['prefix_id']);
                                         if(!empty($prefix_data) && $prefix_data !='norows')
@@ -1351,60 +1351,60 @@ public function editappraisal($id,$performanceflag,$ff_flag)
                                             $employeeform->prefix_id->addMultiOption($prefix_data['id'],$prefix_data['prefix']);
                                         }
 					$referedby_options = $user_model->getRefferedByForUsers();
-				
+
 				/* Code for reporting manager dropdown */
-				
+
 				$reportingManagerData = $usersModel->getUserDetailsByID($data['reporting_manager']);
 				if(!empty($reportingManagerData))
 				{
 				   $employeeform->reporting_manager->addMultiOption($reportingManagerData[0]['id'],$reportingManagerData[0]['userfullname']);
 				}
-				
+
 					$employmentStatusData = $employmentstatusModel->getempstatuslist();
 					if(sizeof($employmentStatusData) > 0)
-					{ 			
+					{
 						$employeeform->emp_status_id->addMultiOption('','Select a Employment Status');
 						foreach ($employmentStatusData as $employmentStatusres){
 							$employeeform->emp_status_id->addMultiOption($employmentStatusres['workcodename'],$employmentStatusres['statusname']);
 						}
 					}
-		
-					$businessunitData = $busineesUnitModel->getDeparmentList(); 
+
+					$businessunitData = $busineesUnitModel->getDeparmentList();
 					if(sizeof($businessunitData) > 0)
-					{ 			
+					{
 						$employeeform->businessunit_id->addMultiOption('0','No Business Unit');
 						foreach ($businessunitData as $businessunitres){
 							$employeeform->businessunit_id->addMultiOption($businessunitres['id'],$businessunitres['unitname']);
 						}
 					}
-				
+
 					$departmentsData = $deptModel->getDepartmentList($data['businessunit_id']);
 					if(sizeof($departmentsData) > 0)
-					{ 			
+					{
 						$employeeform->department_id->addMultiOption('','Select a Department');
 						foreach ($departmentsData as $departmentsres){
 							$employeeform->department_id->addMultiOption($departmentsres['id'],$departmentsres['deptname']);
 						}
-					} 
-				
-					$jobtitleData = $jobtitlesModel->getJobTitleList(); 			
+					}
+
+					$jobtitleData = $jobtitlesModel->getJobTitleList();
 					if(sizeof($jobtitleData) > 0)
-					{ 			
+					{
 						$employeeform->jobtitle_id->addMultiOption('','Select a Job Title');
 						foreach ($jobtitleData as $jobtitleres){
 							$employeeform->jobtitle_id->addMultiOption($jobtitleres['id'],$jobtitleres['jobtitlename']);
 						}
 					}
-				
-					$positionlistArr = $positionsmodel->getPositionList($data['jobtitle_id']); 
+
+					$positionlistArr = $positionsmodel->getPositionList($data['jobtitle_id']);
 					if(sizeof($positionlistArr) > 0)
-					{ 			
+					{
 						$employeeform->position_id->addMultiOption('','Select a Position');
 						foreach ($positionlistArr as $positionlistres){
 							$employeeform->position_id->addMultiOption($positionlistres['id'],$positionlistres['positionname']);
 						}
-					} 					
-				
+					}
+
 					$employeeform->populate($data);
 					$employeeform->setDefault('user_id',$data['user_id']);
 					$employeeform->setDefault('emp_status_id',$data['emp_status_id']);
@@ -1417,30 +1417,30 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 						$date_of_joining = sapp_Global::change_date($data['date_of_joining'],'view');
 						$employeeform->date_of_joining->setValue($date_of_joining);
 					}
-			
+
 					if($data['date_of_leaving'] !='' && $data['date_of_leaving'] !='0000-00-00')
 					{
 						$date_of_leaving = sapp_Global::change_date($data['date_of_leaving'],'view');
 						$employeeform->date_of_leaving->setValue($date_of_leaving);
 					}
 					if($data['modeofentry'] != 'Direct')
-					{                                                                        
+					{
 						$employeeform->rccandidatename->setValue($data['userfullname']);
 					}
 					if(sizeof($referedby_options) > 0 && $data['candidatereferredby'] != '' && $data['candidatereferredby'] != 0)
-					{ 			                    
+					{
 						$employeeform->candidatereferredby->setValue($referedby_options[$data['candidatereferredby']]);
 					}
-								
+
 					$this->view->id = $id;
 					$this->view->form = $employeeform;
 					$this->view->employeedata = (!empty($data))?$data:"";
 					$this->view->messages = $this->_helper->flashMessenger->getMessages();
 					$this->view->empdata = $data;
 					$this->view->performanceflag = $performanceflag;
-					$this->view->ff_flag = $ff_flag;	
-				}    				
-					
+					$this->view->ff_flag = $ff_flag;
+				}
+
 			}
 			else
 			{
@@ -1453,7 +1453,7 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 		}
 		$this->render('editappraisal',true);
 	}
-	
+
 	public function viewAction()
 	{
 		$auth = Zend_Auth::getInstance();
@@ -1502,36 +1502,36 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 				else if(!empty($data))
 				{
 					$this->view->rowexist = "rows";
-						
+
 					$data = $data[0];
 					$employeeData = $usersModel->getUserDetailsByIDandFlag($data['user_id']);
-					
+
 					$roles_arr = $role_model->getRolesDataByID($data['emprole']);
 					if(sizeof($roles_arr) > 0)
 					{
 						$employeeform->emprole->addMultiOption($roles_arr[0]['id'].'_'.$roles_arr[0]['group_id'],utf8_encode($roles_arr[0]['rolename']));
 						$data['emprole']=$roles_arr[0]['rolename'];
-						
+
 						//for reporting managers
 					  $reportingManagerData = $usersModel->getReportingManagerList_employees($data['department_id'],$data['id'],$roles_arr[0]['group_id']);
 						if(!empty($reportingManagerData))
 						{
-							$employeeform->reporting_manager->addMultiOption('','Select Reporting Manager');						
+							$employeeform->reporting_manager->addMultiOption('','Select Reporting Manager');
 
 							foreach ($reportingManagerData as $reportingManagerres){
 								$employeeform->reporting_manager->addMultiOption($reportingManagerres['id'],$reportingManagerres['name']);
 							}
 						}
 						$employeeform->setDefault('reporting_manager',$data['reporting_manager']);
-						
+
 					}
 					else
 					{
 						$data['emprole']="";
 					}
-						
+
 					$referedby_options = $user_model->getRefferedByForUsers();
-                   
+
 					$employmentStatusData = $employmentstatusModel->getempstatuslist();
 					if(sizeof($employmentStatusData) > 0)
 					{
@@ -1540,9 +1540,9 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 							$employeeform->emp_status_id->addMultiOption($employmentStatusres['workcodename'],$employmentStatusres['statusname']);
 						}
 					}
-						
+
 					$businessunitData = $busineesUnitModel->getDeparmentList();
-					
+
 					if(sizeof($businessunitData) > 0)
 					{
 						$employeeform->businessunit_id->addMultiOption('0','No Business Unit');
@@ -1550,7 +1550,7 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 							$employeeform->businessunit_id->addMultiOption($businessunitres['id'],$businessunitres['unitname']);
 						}
 					}
-						
+
 					$departmentsData = $deptModel->getDepartmentList($data['businessunit_id']);
 					if(sizeof($departmentsData) > 0)
 					{
@@ -1559,8 +1559,8 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 							$employeeform->department_id->addMultiOption($departmentsres['id'],$departmentsres['deptname']);
 						}
 					}
-						
-						
+
+
 					$jobtitleData = $jobtitlesModel->getJobTitleList();
 					if(sizeof($jobtitleData) > 0)
 					{
@@ -1581,25 +1581,25 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 
 					if(isset($data['prefix_id']) && $data['prefix_id'] !='')
 					{
-						
-						
+
+
 						$singlePrefixArr = $prefixModel->getsinglePrefixData($data['prefix_id']);
-						
+
 						if($singlePrefixArr !='norows')
 						{
 							$employeeform->prefix_id->addMultiOption($singlePrefixArr[0]['id'],$singlePrefixArr[0]['prefix']);
-					
+
 							$data['prefix_id']=$singlePrefixArr[0]['prefix'];
 						}
 						else
 						{
 								$data['prefix_id'] = "";
 						}
-						
+
 					}
-					
-					
-				
+
+
+
 					$employeeform->populate($data);
 					//splitting employee id
 					$employeeId = !empty($data['employeeId'])?$data['employeeId']:'';
@@ -1611,7 +1611,7 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 					$employeeNumId = str_replace($emp_identity_code, '', $employeeId);
 
 					$employeeform->setDefault('employeeId',$emp_identity_code);
-					$employeeform->setDefault('employeeNumId',$employeeNumId);					
+					$employeeform->setDefault('employeeNumId',$employeeNumId);
 					$employeeform->setDefault('user_id',$data['user_id']);
 					$employeeform->setDefault('emp_status_id',$data['emp_status_id']);
 					$employeeform->setDefault('businessunit_id',$data['businessunit_id']);
@@ -1620,10 +1620,10 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 					$employeeform->setDefault('position_id',$data['position_id']);
 					$date_of_joining = sapp_Global::change_date($data['date_of_joining'],'view');
 					$employeeform->date_of_joining->setValue($date_of_joining);
-						
+
 					if($data['date_of_leaving'] !='' && $data['date_of_leaving'] !='0000-00-00')
 					{
-							
+
 						$date_of_leaving = sapp_Global::change_date($data['date_of_leaving'], 'view');
 						$employeeform->date_of_leaving->setValue($date_of_leaving);
 					}
@@ -1645,13 +1645,13 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 						else{
 							$data['requisition_code'] = "";
 						}
-						
+
 					}
-					
-				/* overwriting business unitname */	
+
+				/* overwriting business unitname */
 					if(!empty($data['businessunit_id'])) {
 						$buname = $busineesUnitModel->getSingleUnitData($data['businessunit_id']);
-						
+
 						if(!empty($buname)){
 							$data['businessunit_id'] = $buname['unitname'];
 						}
@@ -1662,83 +1662,83 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 					}
 					if(!empty($data['department_id'])) {
 						$depname = $deptModel->getSingleDepartmentData($data['department_id']);
-						
+
 						if(!empty($depname)){
 							$data['department_id'] = $depname['deptname'];
-							
+
 						}
 						else
 						{
 							$data['department_id']  = "";
 						}
 					}
-					if(!empty($data['jobtitle_id'])) 
+					if(!empty($data['jobtitle_id']))
 					{
-					
+
 					$jobname = $jobtitlesModel->getsingleJobTitleData($data['jobtitle_id']);
-									
+
 						if(!empty($jobname) && $jobname!='norows'){
-							
+
 							$data['jobtitle_id'] = $jobname[0]['jobtitlename'];
-							
+
 						}
 						else
 						{
 								$data['jobtitle_id'] = "";
 						}
-						
+
 					}
 				    else
 					{
 							$data['jobtitle_id'] = "";
 					}
-					
+
 					if(!empty($data['position_id']))
 					{
-						
+
 						$nameofposition = $positionsmodel->getsinglePositionData($data['position_id']);
 						if(!empty($nameofposition) && $nameofposition!='norows'){
-							
+
 							$data['position_id'] = $nameofposition[0]['positionname'];
-							
+
 						}
 						else
 					    {
 								$data['position_id'] ="";
 						}
-						
+
 					}
 				     else
 					{
 						$data['position_id'] ="";
 					}
-					
+
 					if(!empty($data['emp_status_id'])) {
 						$employmentStatusValue = $employmentstatusModel->getParticularStatusName($data['emp_status_id']);
-						
+
 						if(!empty($employmentStatusValue)){
-							
+
 							$data['emp_status_id'] = $employmentStatusValue[0]['employemnt_status'];
-						
+
 						}
 						else{
 							$data['emp_status_id'] ="";
 						}
 					}
-					
-					
+
+
 					if(!empty($data['reporting_manager'])) {
 					 	$reportingManagerName = $usersModel->getUserDetailsByID($data['reporting_manager']);
-						
+
 						if(!empty($reportingManagerName)){
-							
+
 							$data['reporting_manager'] = $reportingManagerName[0]['userfullname'];
-						
+
 						}
 						else{
-							
+
 							$data['reporting_manager'] = "";
-						
+
 						}
 					}
 					$employeeform->setAttrib('action',BASE_URL.'employee/edit/id/'.$id);
@@ -1776,12 +1776,12 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 		$requimodel = new Default_Model_Requisition();
 		$candidate_model = new Default_Model_Candidatedetails();
 		$orgInfoModel = new Default_Model_Organisationinfo();
-		
+
 		$unitid = '';
 		$deptid = '';
 		$errorflag = 'true';
 		$msgarray = array();
-		
+
 	    $id = $this->_request->getParam('id');
 		$businessunit_id = $this->_request->getParam('businessunit_id',null);
 		$department_id = $this->_request->getParam('department_id',null);
@@ -1809,7 +1809,7 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 		else
 		{
 			$msgarray['employeeId'] = 'Identity codes are not configured yet.';
-			$flag = 'false';			
+			$flag = 'false';
 		}
 		//duplicate emp id check
 		$where_condition = "";
@@ -1823,44 +1823,44 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 			$msgarray['employeeNumId'] = "Employee ID already exists. Please try again.";
 			$errorflag = 'false';
 		}
-		
+
 		$isvalidorgstartdate = $orgInfoModel->validateEmployeeJoiningDate($date_of_joining,$unitid,$deptid);
 		if(!empty($isvalidorgstartdate))
 		{
 			 $msgarray['date_of_joining'] = 'Employee joining date should be greater than organization start date.';
 			 $errorflag = 'false';
-		} 
+		}
 		if($id)
 		{
-			$data = $employeeModal->getsingleEmployeeData($id);		
+			$data = $employeeModal->getsingleEmployeeData($id);
 			if(!empty($data) && $data[0]['is_orghead'] == 1)
 			{
 				$reporting_manager = $this->_request->getParam('reporting_manager','0');
 			}
 		}
-		
+
 		if($employeeform->isValid($this->_request->getPost()) && $errorflag == 'true')
 		{
 			$id = $this->_request->getParam('id');
 			$emp_status_id = $this->_request->getParam('emp_status_id',null);
-			
+
 			$date_of_leaving = $this->_request->getParam('date_of_leaving',null);
 			$date_of_leaving = sapp_Global::change_date($date_of_leaving,'database');
 			$years_exp = $this->_request->getParam('years_exp');
 			//FOR USER table
 			// $employeeId = $this->_getParam('employeeId',null);
-			
+
 			$modeofentry = $this->_getParam('modeofentry',null);
 			$hid_modeofentry = $this->_getParam('hid_modeofentry',null);
 			$other_modeofentry = $this->_getParam('other_modeofentry',null);
-			
+
 			$firstname = trim($this->_getParam('firstname',null));
 			$lastname = trim($this->_getParam('lastname',null));
 			$userfullname = $firstname.' '.$lastname;
 			$candidatereferredby = $this->_getParam('candidatereferredby',null);
 			$rccandidatename = $this->_getParam('rccandidatename',null);
 			$emprole = $this->_getParam('emprole',null);	//roleid_group_id
-			
+
 			if($emprole != "")
 			{
 				$roleArr = explode('_',$emprole);
@@ -1900,7 +1900,7 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 					$firstname = $cand_data['candidate_firstname'];
 					$lastname = $cand_data['candidate_lastname'];
 				}
-			}	
+			}
 			$trDb = Zend_Db_Table::getDefaultAdapter();
 			// starting transaction
 			$trDb->beginTransaction();
@@ -1926,7 +1926,7 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 							);
 
 				$user_data['employeeId'] = $emp_id;
-				
+
 				if($id!='')
 				{
 					$where = array('user_id=?'=>$user_id);
@@ -1962,8 +1962,8 @@ public function editappraisal($id,$performanceflag,$ff_flag)
                                 'emp_status_id'=>$emp_status_id,
                                 'businessunit_id'=>$businessunit_id,
                                 'department_id'=>$department_id,
-                                'jobtitle_id'=>$jobtitle_id, 
-                                'position_id'=>$position_id, 
+                                'jobtitle_id'=>$jobtitle_id,
+                                'position_id'=>$position_id,
                                 'prefix_id'=>$prefix_id,
                                 'extension_number'=>($extension_number!=''?$extension_number:NULL),
                                 'office_number'=>($office_number!=''?$office_number:NULL),
@@ -2015,13 +2015,13 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 					//update userfullname in request history
 					$edata = $usersModel->getUserDataById($id);
 					$reqh_model = new Default_Model_Requesthistory();
-					$request_history = array(											
+					$request_history = array(
 										'emp_name' =>$edata['userfullname'],
-										
+
 									);
 					$rwhere = "emp_id = ".$user_id;
-					$historyId = $reqh_model->SaveorUpdateRhistory($request_history,$rwhere); 
-					
+					$historyId = $reqh_model->SaveorUpdateRhistory($request_history,$rwhere);
+
                 }
 				if($Id == 'update')
 				{
@@ -2044,7 +2044,7 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 					$options['toName'] = $this->view->emp_name;
 					$options['message'] = $text;
 					$result = sapp_Global::_sendEmail($options);
-					
+
 					//end of mailing
 					$tableid = $Id;
 					$this->_helper->getHelper("FlashMessenger")->addMessage(array("success"=>"Employee details added successfully."));
@@ -2053,7 +2053,7 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 					if($candidate_flag == 'yes')
 					{
 						$cand_data = $candidate_model->getCandidateById($rccandidatename);
-						
+
 						$candidate_model->SaveorUpdateCandidateData(array('cand_status' => 'Recruited','modifieddate' => gmdate("Y-m-d H:i:s")), " id = ".$rccandidatename);
 						$reqData = $requimodel->incrementfilledpositions($cand_data['requisition_id']);
 						if($reqData['req_no_positions'] == $reqData['filled_positions'])
@@ -2074,11 +2074,11 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 				$menuID = EMPLOYEE;
 				$result = sapp_Global::logManager($menuID,$actionflag,$loginUserId,$user_id);
 				$trDb->commit();
-				
+
 				// Send email to employee when his details are edited by other user.
 				$options['subject'] = APPLICATION_NAME.': Employee details updated';
                 $options['header'] = 'Employee details updated';
-                $options['toEmail'] = $emailaddress;  
+                $options['toEmail'] = $emailaddress;
                 $options['toName'] = $userfullname;
                 $options['message'] = 'Dear '.$userfullname.', <br/> Your details has been updated.';
                 $options['cron'] = 'yes';
@@ -2093,11 +2093,11 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 				$exception = $e->getMessage();
 				if(!empty($exception) && strpos($e->getMessage(), "Duplicate entry '".$emp_id."'"))
 				{
-					$msgarray['employeeNumId'] = "Employee ID already exists. Please try again.";	
+					$msgarray['employeeNumId'] = "Employee ID already exists. Please try again.";
 				}
 				else
 				{
-					$msgarray['employeeId'] = "Something went wrong, please try again later.";	
+					$msgarray['employeeId'] = "Something went wrong, please try again later.";
 				}
 				return $msgarray;
 			}
@@ -2124,7 +2124,7 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 				{
 					$employeeform->department_id->addMultiOption($departmentlistresult['id'],utf8_encode($departmentlistresult['deptname']));
 				}
-				 
+
 				if(isset($department_id) && $department_id != 0 && $department_id != '')
 				$employeeform->setDefault('department_id',$department_id);
 			}
@@ -2148,9 +2148,9 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 	}
     public function send_requi_mail($id,$requi_model,$user_model,$loginUserId)
     {
-        $requi_model->change_to_requisition_closed($id);                                
+        $requi_model->change_to_requisition_closed($id);
         // end of changing candidate status
-        $requisition_data = $requi_model->getReqDataForView($id);         
+        $requisition_data = $requi_model->getReqDataForView($id);
         $requisition_data = $requisition_data[0];
         $report_person_data = $user_model->getUserDataById($requisition_data['createdby']);
         $closed_person_data = $user_model->getUserDataById($loginUserId);
@@ -2168,7 +2168,7 @@ public function editappraisal($id,$performanceflag,$ff_flag)
         {
             $base_url = 'http://'.$this->getRequest()->getHttpHost() . $this->getRequest()->getBaseUrl();
             $view = $this->getHelper('ViewRenderer')->view;
-            $this->view->emp_name = $mail_arr[$ii]['name'];                           
+            $this->view->emp_name = $mail_arr[$ii]['name'];
             $this->view->base_url=$base_url;
             $this->view->type = $mail_arr[$ii]['type'];
             $this->view->requisition_code = $requisition_data['requisition_code'];
@@ -2178,7 +2178,7 @@ public function editappraisal($id,$performanceflag,$ff_flag)
             $text = $view->render('mailtemplates/changedrequisition.phtml');
             $options['subject'] = APPLICATION_NAME.': Requisition for approval';
             $options['header'] = 'Requisition for approval';
-            $options['toEmail'] = $mail_arr[$ii]['email'];  
+            $options['toEmail'] = $mail_arr[$ii]['email'];
             $options['toName'] = $mail_arr[$ii]['name'];
             $options['message'] = $text;
             $options['cron'] = 'yes';
@@ -2222,7 +2222,7 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 				$uniquedepartmentids = $departmentsmodel->getUniqueDepartments($querystring);
 				if(empty($uniquedepartmentids))
 				$flag = 'true';
-					
+
 				$this->view->uniquedepartmentids=$uniquedepartmentids;
 			}
 			else
@@ -2240,7 +2240,7 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 			$flag = 'true';
 			$this->view->departmentlistArr=$departmentlistArr;
 		}
-	  
+
 		$this->view->employeeform=$employeeform;
 		$this->view->leavemanagementform=$leavemanagementform;
 		$this->view->flag=$flag;
@@ -2263,7 +2263,7 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 		$positionlistArr = $positionsmodel->getPositionList($jobtitle_id);
 		if(empty($positionlistArr))
 		$flag = 'true';
-			
+
 		$this->view->positionlistArr=$positionlistArr;
 		$this->view->employeeform=$employeeform;
 		$this->view->flag=$flag;
@@ -2287,12 +2287,12 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 			$employeemodel = new Default_Model_Employee();
 			$usersModel = new Default_Model_Users();
 			$empdata = array('isactive'=>5);
-			$empwhere = array('user_id=?'=>$id);	
+			$empwhere = array('user_id=?'=>$id);
 			$userdata = array('isactive'=>5);
-			$userwhere = array('id=?'=>$id);	
+			$userwhere = array('id=?'=>$id);
 			$empId = $employeemodel->SaveorUpdateEmployeeData($empdata, $empwhere);
 			$userId = $usersModel->addOrUpdateUserModel($userdata, $userwhere);
-				
+
 			if($empId == 'update' && $userId == 'update')
 			{
 				$menuID = EMPLOYEE;
@@ -2320,7 +2320,7 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 	 * @return Array Array of managers in json format.
 	 */
 	public function getempreportingmanagersAction()
-	{	
+	{
             $dept_id = $this->_getParam('id',null);
             $employee_id = $this->_getParam('empId',null);
             $employee_group = $this->_getParam('empgroup',null);
@@ -2360,20 +2360,20 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 		$user_model =new Default_Model_Usermanagement();
 		$usermodel = new Default_Model_Users();
 		$role_model = new Default_Model_Roles();
-		$logmanagermodel = new Default_Model_Logmanager(); 
+		$logmanagermodel = new Default_Model_Logmanager();
 	    $auth = Zend_Auth::getInstance();
 		if($auth->hasIdentity())
 		{
 			$loginUserId = $auth->getStorage()->read()->id;
 		}
-		
+
 		$empData = $employeeModal->getsingleEmployeeData($emp_id);
-		
+
 		if($hasteam == 'true')
 		{
 			$employessunderEmpId = array(); $reportingmanagersList = array();
 			$employessunderEmpId = $employeeModal->getEmployeesUnderRM($emp_id);
-			
+
 			if($empData[0]['is_orghead'] == 1)
 			{
 				$reportingmanagersList = $usermodel->getReportingManagerList_employees('','',MANAGEMENT_GROUP);
@@ -2383,8 +2383,8 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 				$role_data = $role_model->getRoleDataById($empData[0]['emprole']);
 				$reportingmanagersList = $usermodel->getReportingManagerList_employees($empData[0]['department_id'],$emp_id,$role_data['group_id']);
 			}
-			
-			$reportingmanagersList = sapp_Global::removeElementWithValue($reportingmanagersList,'id',$emp_id);		
+
+			$reportingmanagersList = sapp_Global::removeElementWithValue($reportingmanagersList,'id',$emp_id);
 			$this->view->emp_id = $emp_id;
 			$this->view->status = $status;
 			$this->view->ishead = $empData[0]['is_orghead'];
@@ -2394,7 +2394,7 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 		}
 		else
 		{
-			$db = Zend_Db_Table::getDefaultAdapter();	
+			$db = Zend_Db_Table::getDefaultAdapter();
 			$db->beginTransaction();
 			try
 			{
@@ -2425,8 +2425,8 @@ public function editappraisal($id,$performanceflag,$ff_flag)
                                              'isactive' => 0
 					);
 					$jsonlogarr = json_encode($logarr);
-					
-				}			
+
+				}
 				$where = "id = ".$emp_id;
 				$user_model->SaveorUpdateUserData($data, $where);
 				$employeeModal->SaveorUpdateEmployeeData($empdata, "user_id =".$emp_id);
@@ -2434,25 +2434,25 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 				{
 					$headData = array(
 									'is_orghead' => 0
-								);	
+								);
 					$headWhere = "user_id = ".$emp_id;
 					$employeeModal->SaveorUpdateEmployeeData($headData,$headWhere);
 				}
 				$menuID = EMPLOYEE;
 				$id = $logmanagermodel->addOrUpdateLogManager($menuID,4,$jsonlogarr,$loginUserId,$emp_id);
-				
+
 				$db->commit();
 				$result = 'update';
 			}
 			catch(Exception $e)
-			{			
-				$db->rollBack();								
+			{
+				$db->rollBack();
 				$result = 'failed';
 			}
 			$this->_helper->json(array('result' =>($result == 'update')?"yes":"no"));
 		}
 	}
-	
+
 	public function changereportingmanagerAction()
 	{
 		$oldRM = $this->_getParam('empid',null);
@@ -2468,20 +2468,20 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 		$newRMData = $employeeModal->getsingleEmployeeData($newRM);
 		foreach($employessunderEmpId as $employee)
 		{
-			$options['subject'] = APPLICATION_NAME.' : Change of reporting manager';	
+			$options['subject'] = APPLICATION_NAME.' : Change of reporting manager';
 			$options['header'] = 'Change of reporting manager';
-			$options['toEmail'] = $employee['emailaddress']; 	
+			$options['toEmail'] = $employee['emailaddress'];
 			$options['toName'] = $employee['userfullname'];
 			$options['message'] = '<div>Hello '.ucfirst($employee['userfullname']).',
 										<div>'.ucfirst($newRMData[0]['userfullname']).' is your new reporting manager.</div>
 										<div style="padding:20px 0 10px 0;">Please <a href="'.$baseUrl.'/index/popup" target="_blank" style="color:#b3512f;">click here</a> to login </div>
 									</div>';
 			$result = sapp_Global::_sendEmail($options);
-			
+
 		}
 		$this->_helper->json(array('result' =>$updateTable));
 	}
-	
+
 	public function addemppopupAction()
 	{
 		$flag = 'true'; $controllername = 'employee';$msgarray = array();
@@ -2492,8 +2492,8 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 			$loginUserId = $auth->getStorage()->read()->id;
 		}
 
-		$deptidforhead = $this->_getParam('deptidforhead',null); 
-			
+		$deptidforhead = $this->_getParam('deptidforhead',null);
+
 		$report_opt = array();
 		$emp_form = new Default_Form_employee();
 		$user_model = new Default_Model_Usermanagement();
@@ -2506,26 +2506,26 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 		$employeeModal = new Default_Model_Employee();
 		$usersModel2 = new Default_Model_Users();
 		$employmentstatusModel = new Default_Model_Employmentstatus();
-		
+
 		$emp_form->setAction(BASE_URL.'employee/addemppopup/deptidforhead/'.$deptidforhead);
 		$emp_form->removeElement('department_id');
-		$emp_form->removeElement('modeofentry');		
-		
+		$emp_form->removeElement('modeofentry');
+
 		$identity_codes = $identity_code_model->getIdentitycodesRecord();
 		$emp_identity_code = isset($identity_codes[0])?$identity_codes[0]['employee_code']:"";
 		if($emp_identity_code!='')
 		{
 			// $emp_id = $emp_identity_code.str_pad($user_model->getMaxEmpId($emp_identity_code), 4, '0', STR_PAD_LEFT);
 			$emp_id = $emp_identity_code;
-		}	
-		else 
+		}
+		else
 		{
 			$emp_id = '';
 			$msgarray['employeeId'] = 'Identity codes are not configured yet.';
 			$flag = 'false';
-		}			
+		}
 		$emp_form->employeeId->setValue($emp_id);
-		
+
 		$role_data = $role_model->getRolesList_Dept($deptidforhead);   //in add screen $deptidforhead is null and we can get only Management role,In edit screen getting all roles
 		$emp_form->emprole->addMultiOptions(array('' => 'Select Role')+$role_data);
 		if(empty($role_data))
@@ -2533,12 +2533,12 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 			$msgarray['emprole'] = 'Roles are not configured yet.';
 			$flag = 'false';
 		}
-		
-		$prefixData = $prefixModel->getPrefixList(); 
-	
+
+		$prefixData = $prefixModel->getPrefixList();
+
 		$emp_form->prefix_id->addMultiOption('','Select Prefix');
 		if(!empty($prefixData))
-		{ 			
+		{
 			foreach ($prefixData as $prefixres)
 			{
 				$emp_form->prefix_id->addMultiOption($prefixres['id'],$prefixres['prefix']);
@@ -2549,22 +2549,22 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 			$msgarray['prefix_id'] = 'Prefixes are not configured yet.';
 			//$flag = 'false';
 		}
-		
-		$jobtitleData = $jobtitlesModel->getJobTitleList();                 
+
+		$jobtitleData = $jobtitlesModel->getJobTitleList();
 		if(!empty($jobtitleData))
-		{ 						        
+		{
 			foreach ($jobtitleData as $jobtitleres)
 			{
 				$emp_form->jobtitle_id->addMultiOption($jobtitleres['id'],$jobtitleres['jobtitlename']);
 			}
 		}
 		else
-		{			    
+		{
 			$msgarray['jobtitle_id'] = 'Job titles are not configured yet.';
 			$msgarray['position_id'] = 'Positions are not configured yet.';
 			//$flag = 'false';
 		}
-		
+
 		if(isset($_POST['jobtitle_id']) && $_POST['jobtitle_id']!='')
 		{
 			$positionlistArr = $positionsmodel->getPositionList($_POST['jobtitle_id']);
@@ -2577,7 +2577,7 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 				}
 			}
 		}
-		
+
 	    $employmentStatusData = $employmentstatusModel->getempstatusActivelist();
 		$emp_form->emp_status_id->addMultiOption('','Select Employment Status');
 		if(!empty($employmentStatusData))
@@ -2609,17 +2609,17 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 			$employee_role = explode('_', $emprole);
 			if(!empty($employee_role[0]) && !empty($employee_role[1]) && is_numeric($employee_role[0]) && is_numeric($employee_role[1]))
 			{
-				$reportingManagerData = $usersModel2->getReportingManagerList_employees($deptidforhead,'',$employee_role[1]);	
+				$reportingManagerData = $usersModel2->getReportingManagerList_employees($deptidforhead,'',$employee_role[1]);
 			}
-		}	
+		}
 		else //for add department screen
 		{
 			$reportingManagerData = $usersModel2->getReportingManagerList_employees('','',MANAGEMENT_GROUP);
-		}	
-		
+		}
+
 		if(!empty($reportingManagerData))
 		{
-			$report_opt = $reportingManagerData;			 
+			$report_opt = $reportingManagerData;
 			if(isset($_POST['reporting_manager']) && $_POST['reporting_manager']!='')
 			$emp_form->setDefault('reporting_manager',$_POST['reporting_manager']);
 		}
@@ -2645,7 +2645,7 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 				else
 				{
 					$msgarray['employeeId'] = 'Identity codes are not configured yet.';
-					$flag = 'false';			
+					$flag = 'false';
 				}
 				//duplicate emp id check
 				$where_condition = "";
@@ -2658,18 +2658,18 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 				{
 					$msgarray['employeeNumId'] = "Employee ID already exists. Please try again.";
 					$flag = 'false';
-				}				
+				}
 				if($flag == 'true')
 				{
 					$jobtitle_id = $this->_request->getParam('jobtitle_id',null);
-					$position_id = $this->_request->getParam('position_id',null);                        
+					$position_id = $this->_request->getParam('position_id',null);
 					$date_of_joining = sapp_Global::change_date($this->_request->getParam('date_of_joining',null),'database');
 					$date_of_leaving = $this->_request->getParam('date_of_leaving',null);
 					$date_of_leaving = sapp_Global::change_date($date_of_leaving,'database');
 					$employeeId = $this->_getParam('employeeId',null);
 					$emprole = explode('_',$this->_getParam('emprole',null));
 					$reporting_manager = $this->_getParam('reporting_manager',null);
-					$emailaddress = $this->_getParam('emailaddress',null);				
+					$emailaddress = $this->_getParam('emailaddress',null);
 					$emppassword = sapp_Global::generatePassword();
 					$firstname = trim($this->_getParam('firstname',null));
 					$lastname = trim($this->_getParam('lastname',null));
@@ -2679,34 +2679,34 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 					$prefix_id = $this->_getParam('prefix_id',null);
 					$user_id = $this->_getParam('user_id',null);
 					$emp_status_id = $this->_getParam('emp_status_id',null);
-					
+
 					$user_data = array(
 								'emprole' => !empty($emprole[0])?$emprole[0]:null,
 								'firstname' => ($firstname!='')?$firstname:NULL,
-	                            'lastname' => ($lastname!='')?$lastname:NULL,                                
+	                            'lastname' => ($lastname!='')?$lastname:NULL,
 								'userfullname' => $userfullname,
 								'emailaddress' => $emailaddress,
 								'jobtitle_id'=> $jobtitle_id,
 								'modifiedby'=> $loginUserId,
-								'modifieddate'=> gmdate("Y-m-d H:i:s"),                                                                      
+								'modifieddate'=> gmdate("Y-m-d H:i:s"),
 								'emppassword' => md5($emppassword),
 								'employeeId' => $emp_id,
-								'modeofentry' => 'Direct',                                                              
-								'selecteddate' => $date_of_joining,                                    
-								'userstatus' => 'old',  				                                         
+								'modeofentry' => 'Direct',
+								'selecteddate' => $date_of_joining,
+								'userstatus' => 'old',
 							);
-					$emp_data = array(  
-									'user_id'=>$user_id,                                        
-									'jobtitle_id'=>$jobtitle_id, 
-									'position_id'=>$position_id, 
-									'prefix_id'=>$prefix_id,  
+					$emp_data = array(
+									'user_id'=>$user_id,
+									'jobtitle_id'=>$jobtitle_id,
+									'position_id'=>$position_id,
+									'prefix_id'=>$prefix_id,
 									'department_id' => $deptidforhead,
 									'businessunit_id' => !empty($businessunitid)?$businessunitid:'0',
 									'reporting_manager' => $reporting_manager,
-									'date_of_joining'=>$date_of_joining,   
+									'date_of_joining'=>$date_of_joining,
 									'date_of_leaving'=>($date_of_leaving!=''?$date_of_leaving:NULL),
-					                'emp_status_id'=>$emp_status_id,    
-									'modifiedby'=>$loginUserId,				
+					                'emp_status_id'=>$emp_status_id,
+									'modifiedby'=>$loginUserId,
 									'modifieddate'=>gmdate("Y-m-d H:i:s")
 									);
 					$user_data['createdby'] = $loginUserId;
@@ -2716,34 +2716,34 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 						$emp_id = $emp_identity_code.str_pad($user_model->getMaxEmpId($emp_identity_code), 4, '0', STR_PAD_LEFT);
 					else
 					$emp_id = '';*/
-					$user_data['employeeId'] = $emp_id;			
+					$user_data['employeeId'] = $emp_id;
 					$user_id = $user_model->SaveorUpdateUserData($user_data, '');
-					
+
 					$emp_data['user_id'] = $user_id;
 					$emp_data['createdby'] = $loginUserId;
 					$emp_data['createddate'] = gmdate("Y-m-d H:i:s");;
-					$emp_data['isactive'] = 1;				
+					$emp_data['isactive'] = 1;
 					$employeeModal->SaveorUpdateEmployeeData($emp_data, '');
 					//end of saving into employee table.
 					$tableid = $user_id;
 					$actionflag = 1;
 					$menuID = ORGANISATIONINFO;
-					try 
+					try
 					{
 						$result = sapp_Global::logManager($menuID,$actionflag,$loginUserId,$tableid);
 					}
 					catch(Exception $e) { }
-					
+
 					//$managementUsersData = $deptModel->getDeptHeads();
 					$managementUsersData = $deptModel->getDepartmenttHead('');
-					$opt ='';   
+					$opt ='';
 					foreach($managementUsersData as $record)
 					{
 						$opt .= sapp_Global::selectOptionBuilder($record['user_id'], $record['userfullname']);
 					}
-					
+
 					$this->view->managementUsersData = $opt;
-					
+
 					/* Send Mail to the user */
 					$base_url = 'http://'.$this->getRequest()->getHttpHost() . $this->getRequest()->getBaseUrl();
 					$view = $this->getHelper('ViewRenderer')->view;
@@ -2759,12 +2759,12 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 					$options['message'] = $text;
 					$result = sapp_Global::_sendEmail($options);
 					/* END */
-					
+
 					$this->view->eventact = 'added';
 					$close = 'close';
 					$this->view->popup=$close;
 				}
-				else 
+				else
 				{
 					$messages = $emp_form->getMessages();
 					foreach ($messages as $key => $val)
@@ -2773,12 +2773,12 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 						{
 							$msgarray[$key] = $val2;
 							break;
-						}                                
-					} 
-					$this->view->msgarray = $msgarray;			
-				}						
+						}
+					}
+					$this->view->msgarray = $msgarray;
+				}
 			}
-			else 
+			else
 			{
 				$messages = $emp_form->getMessages();
 				foreach ($messages as $key => $val)
@@ -2787,85 +2787,85 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 					{
 						$msgarray[$key] = $val2;
 						break;
-					}                                
-				} 
-				$this->view->msgarray = $msgarray;			
+					}
+				}
+				$this->view->msgarray = $msgarray;
 			}
 		}
-		$this->view->msgarray = $msgarray;	
+		$this->view->msgarray = $msgarray;
 		$this->view->report_opt = $report_opt;
 		$this->view->controllername = $controllername;
 		$this->view->departmentid = $deptidforhead;
 		$this->view->businessunitid = $businessunit_id;
 		$this->view->emp_form = $emp_form;
 	}
-        
+
     public function uploadexcelAction()
     {
-        $savefolder = EMP_EXCEL_UPLOAD_PATH;		// folder for upload									
+        $savefolder = EMP_EXCEL_UPLOAD_PATH;		// folder for upload
         $max_size = 1048576;			// maxim size for image file, in KiloBytes
-        // Allowed file types			
+        // Allowed file types
         $allowtype = array('xls', 'xlsx');
-	
+
         $rezultat = '';
         $result_status = '';
         $result_msg = '';
         // if is received a valid file
-        if (isset ($_FILES['emp_excel'])) 
+        if (isset ($_FILES['emp_excel']))
         {
             // checks to have the allowed extension
             $type = explode(".", strtolower($_FILES['emp_excel']['name']));
-	    	$ext = $type[count($type)-1];	
-            if (in_array($ext, $allowtype)) 
+	    	$ext = $type[count($type)-1];
+            if (in_array($ext, $allowtype))
             {
                 // check its size
-                if ($_FILES['emp_excel']['size']<=$max_size*1024) 
+                if ($_FILES['emp_excel']['size']<=$max_size*1024)
                 {
                     // if no errors
-                    if ($_FILES['emp_excel']['error'] == 0) 
+                    if ($_FILES['emp_excel']['error'] == 0)
                     {
                         $newname = 'ex_pre_'.date("His").'.'.$ext;
                         $thefile = $savefolder . "/" . $_FILES['emp_excel']['name'];
                         $newfilename = $savefolder . "/" . $newname;
                         $filename = $newname;
-										   
-                        if (!move_uploaded_file ($_FILES['emp_excel']['tmp_name'], $newfilename)) 
+
+                        if (!move_uploaded_file ($_FILES['emp_excel']['tmp_name'], $newfilename))
                         {
                             $rezultat = '';
                             $result_status = 'error';
                             $result_msg = 'The file cannot be uploaded, try again.';
                         }
-                        else 
+                        else
                         {
-                            
-                            $rezultat = $filename;					 		               
-                            
+
+                            $rezultat = $filename;
+
                             $stat = sapp_Helper::process_emp_excel($newfilename);
                             $result_msg = $stat['msg'];
                             $result_status = $stat['status'];
-                            
+
                         }
                     }
                 }
-                else 
-                { 
-                    $rezultat = ''; 
+                else
+                {
+                    $rezultat = '';
                     $result_status = 'error';
                     $result_msg = 'The file exceeds the maximum permitted size '. $max_size. ' KB.';
                 }
             }
-            else 
-            { 
-                $rezultat = ''; 
+            else
+            {
+                $rezultat = '';
                 $result_status = 'error';
-                $result_msg = 'Please upload only .xls,.xlsx files.';	    	  
+                $result_msg = 'Please upload only .xls,.xlsx files.';
             }
         }
-        else 
-        { 
-            $rezultat = ''; 
+        else
+        {
+            $rezultat = '';
             $result_status = 'error';
-            $result_msg = 'Please upload only .gif, .jpg, .jpeg, .png images.';			  
+            $result_msg = 'Please upload only .gif, .jpg, .jpeg, .png images.';
         }
 
         $result = array(
@@ -2873,17 +2873,17 @@ public function editappraisal($id,$performanceflag,$ff_flag)
             'img'=>$rezultat,
             'msg'=>$result_msg
         );
-                        
+
         $this->_helper->json($result);
     }//end of upload excel action
-    
+
     public function getindividualempdetailsAction()
     {
     	$employeeModel = new Default_Model_Employee();
     	$userid = $this->_request->getParam('userid',null);
-    	
+
     	$userdetails = $employeeModel->getEmp_from_summary($userid);
     	$this->view->userdetails = $userdetails;
     }
-        
+
 }//end of class
