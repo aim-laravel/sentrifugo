@@ -1,0 +1,30 @@
+<h2>Employees in</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>EMP ID</th>
+            <th>EMP NAME</th>
+            <th>Leaves Limit</th>
+            <th>Used Leaves</th>
+            <th>Remaining Leaves</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    <?php foreach($this->employees as $employee): ?>
+        <tr>
+            <td><?= $employee['id'] ?></td>
+            <td><?= $employee['userfullname'] ?></td>
+            <td><?= $employee['emailaddress'] ?></td>
+            <?php
+              $limit = $employee['leaves']['emp_leave_limit'];
+              $usedLeaves = $employee['leaves']['used_leaves'];
+            ?>
+            <td><?= $limit ?></td>
+            <td><?= $usedLeaves ?></td>
+            <td><?= ($limit - $usedLeaves) ?></td>
+        </tr>
+    <?php endforeach ?>
+    </tbody>
+</table>

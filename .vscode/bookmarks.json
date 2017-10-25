@@ -1,0 +1,35 @@
+{
+	"onDidClearBookmarkEmitter": {},
+	"onDidClearAllBookmarksEmitter": {},
+	"onDidAddBookmarkEmitter": {},
+	"onDidRemoveBookmarkEmitter": {},
+	"onDidUpdateBookmarkEmitter": {},
+	"bookmarks": [
+		{
+			"fsPath": "$ROOTPATH$/application/modules/default/controllers/LeaverequestController.php",
+			"bookmarks": [
+				352,
+				445,
+				584
+			]
+		},
+		{
+			"fsPath": "$ROOTPATH$/application/modules/default/models/Allottedleaveslog.php",
+			"bookmarks": [
+				25
+			]
+		},
+		{
+			"fsPath": "$ROOTPATH$/application/modules/default/controllers/EmpleavesController.php",
+			"bookmarks": [
+				509
+			]
+		},
+		{
+			"fsPath": "$ROOTPATH$/application/modules/default/Bootstrap.php",
+			"bookmarks": [
+				199
+			]
+		}
+	]
+}
