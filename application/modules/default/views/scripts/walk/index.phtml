@@ -17,13 +17,9 @@
             <td><?= $employee['id'] ?></td>
             <td><?= $employee['userfullname'] ?></td>
             <td><?= $employee['emailaddress'] ?></td>
-            <?php
-              $limit = $employee['leaves']['emp_leave_limit'];
-              $usedLeaves = $employee['leaves']['used_leaves'];
-            ?>
-            <td><?= $limit ?></td>
-            <td><?= $usedLeaves ?></td>
-            <td><?= ($limit - $usedLeaves) ?></td>
+            <td><?= $employee['leaves']['emp_leave_limit'] ?></td>
+            <td><?= $employee['leaves']['used_leaves'] ?></td>
+            <td><?= ($employee['leaves']['emp_leave_limit'] - $employee['leaves']['used_leaves']) ?></td>
         </tr>
     <?php endforeach ?>
     </tbody>
