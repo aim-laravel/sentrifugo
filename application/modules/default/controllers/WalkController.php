@@ -46,6 +46,7 @@ class Default_WalkController extends Zend_Controller_Action
     public function leavesAction()
     {
         $employeeleavesModel = new Default_Model_Employeeleaves();
+        $monthlyLeavesLog = new Default_Model_MonthlyLeavesLog();
         $loginUserId = $this->loginUserId;
 
         $year = date('Y');
@@ -58,7 +59,7 @@ class Default_WalkController extends Zend_Controller_Action
         $employees = $this->fetchEmployeesForDepartment($this->department_id);
 
         array_walk(
-            $employees, function ($employee) use ($employeeleavesModel, $loginUserId) {
+            $employees, function ($employee) use ($employeeleavesModel, $monthlyLeavesLog, $loginUserId) {
                 $leaveLimit = $employee['leaves']['emp_leave_limit'];
                 $usedLeaves = $employee['leaves']['used_leaves'];
                 $user_id = $employee['user_id'];
@@ -69,36 +70,48 @@ class Default_WalkController extends Zend_Controller_Action
                 $postedArr['leave_limit'] = $assignedLeaves;
                 $totalLeaves = $remainingLeaves + $assignedLeaves;
 
-                // Logging the Allotment
-                $saveID = $employeeleavesModel->saveallotedleaves(
-                    $postedArr,
-                    $totalLeaves,
-                    $user_id,
-                    $loginUserId
-                );
+                $resetConfirmation = $monthlyLeavesLog->resetConfirmation($user_id, $totalLeaves);
+                if ($resetConfirmation) {
+                    // Logging the Allotment
+                    $saveID = $employeeleavesModel->saveallotedleaves(
+                        $postedArr,
+                        $totalLeaves,
+                        $user_id,
+                        $loginUserId
+                    );
 
-                // Updating Actual table
-                $empLeave = $this->resetEmployeeLeaves(
-                    $user_id,
-                    $totalLeaves,
-                    0,
-                    $loginUserId
-                );
+                    // Updating Actual table
+                    $empLeave = $this->resetEmployeeLeaves(
+                        $user_id,
+                        $totalLeaves,
+                        0,
+                        $loginUserId
+                    );
+                }
             }
         );
 
         $this->_redirect('walk');
     }
 
+    /**
+     * Number of leaves that should be added to a user's account to perform reset.
+     *
+     * @param int $remainingLeaves  number of leaves the user already has
+     * @return int
+     */
     public function appropriateLeaves($remainingLeaves)
     {
-        if ($remainingLeaves > 0) {
+        if ($remainingLeaves > 0 && $remainingLeaves < 12) {
             return 1;
+        } else {
+            return 0;
         }
+
         return abs($remainingLeaves) + 1;
     }
 
-    public function resetEmployeeLeaves($user_id,$emp_leave_limit,$isleavetrasnfer,$loginUserId)
+    public function resetEmployeeLeaves($user_id, $emp_leave_limit, $isleavetrasnfer, $loginUserId)
     {
         $date= gmdate("Y-m-d H:i:s");
 
